@@ -7,11 +7,11 @@ class Student
   end
 
   def destroy
-    @@records.clear
+    @@records.delete(self)
   end
 
   def display
-    puts "(id: #{id} |name: #{name} |birth_date: #{birth_date} |email: #{email} |phone_number: #{phone_number})"
+    "ID: #{id}, NAME: #{name}, BIRTH_DATE: #{birth_date}, EMAIL: #{email}, PHONE_NUMBER: #{phone_number},"
   end
 
   def self.all
@@ -19,11 +19,11 @@ class Student
   end
 
   def self.find_id(id)
-    @@records.find{|student|student.id == id}
+    @@records.find{ |student|student.id == id }
   end
 
   def self.find_email(email)
-    @@records.find{|student|student.email = email}
+    @@records.find{ |student|student.email == email }
   end
 
   end
