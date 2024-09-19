@@ -11,7 +11,7 @@ class Subject
   end
 
   def display
-    "\nSubject ID: #{id},Subject Name: #{name} \n"
+    "\nSubject_ID:#{id} Subject_Name:#{name} \n"
   end
 
   def self.all
@@ -19,7 +19,7 @@ class Subject
   end
 
   def self.find_id(id)
-    @@records.find { |subject_id| subject_id == id }
+    @@records.find{ |subject| subject.id == id }
   end
 
 end

@@ -11,7 +11,7 @@ class Teacher
   end
 
   def display
-    "\nID:#{id} Name:#{name} Birth_date:#{birth_date} Email:#{email} Phone_number:#{phone_number} Department:#{department}\n"
+    "(ID:#{id} Name:#{name} Birth_date:#{birth_date} Email:#{email} Phone_number:#{phone_number} Department:#{department})"
   end
 
   def self.all

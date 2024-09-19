@@ -1,5 +1,7 @@
 require './course.rb'
 require './student.rb'
+require './subject.rb'
+require './teacher.rb'
 
 def add_student
 
@@ -42,12 +44,14 @@ def student_management
   option = gets.chomp.downcase
   if option == "add"
     add_student
-  else
+  elsif
     if option == "delete"
       delete_student
     end
+  else
+    puts "invalid option"
   end
-  puts "invalid option"
+
 end
 
 def add_course
@@ -65,9 +69,9 @@ def add_course
 end
 
 def delete_course
-  puts "Input Course ID to delete:"
+  print "Input Course ID to delete:"
   course_id = gets.chomp.to_i
-  course = Course.find_id(course_id)
+  course = Course.find_course_id(course_id)
 
   if course
     course.destroy
@@ -93,15 +97,106 @@ def course_management
   end
 end
 
+def add_subject
+  puts "•      Add new Subject      •"
+  new_subject = Subject.new
+  print "Subject Name: "
+  new_subject.name = gets.chomp
 
+  id = Subject.all.size + 1
+  new_subject.id = id
+
+  new_subject.save
+  puts "Subject added successfully!"
+  puts new_subject.display
+end
+
+def delete_subject
+  puts "Input Subject ID to delete:"
+  subject_id = gets.chomp.to_i
+  subject = Subject.find_id(subject_id)
+
+  if subject
+    subject.destroy
+    puts "Subject successfully deleted!"
+  else
+    puts "Subject ID not found"
+  end
+end
+
+def subject_management
+
+  puts "===========OPTIONS=========="
+  print "Add/Delete:"
+  option = gets.chomp.downcase
+  if option == "add"
+    add_subject
+  elsif option == "delete"
+    delete_subject
+  else
+    puts "invalid option"
+    subject_management
+  end
+end
+
+def add_teacher
+  puts "•      Add new Teacher      •"
+  new_teacher = Teacher.new
+  print "name: "
+  new_teacher.name = gets.chomp
+  print "birth_date: "
+  new_teacher.birth_date = gets.chomp
+  print "email: "
+  new_teacher.email = gets.chomp
+  print "phone_number: "
+  new_teacher.phone_number = gets.chomp
+  print "department: "
+  new_teacher.department = gets.chomp
+
+  id = Teacher.all.size + 1
+  new_teacher.id = id
+
+  new_teacher.save
+  puts "Teacher added successfully!"
+  puts new_teacher.display
+end
+
+def delete_teacher
+  puts "Input student ID to delete:"
+  teacher_id = gets.chomp.to_i
+  teacher = Teacher.find_id(teacher_id)
+
+  if teacher
+    teacher.destroy
+    puts "Teacher successfully deleted!"
+  else
+    puts "ID not found"
+  end
+end
+
+def teacher_management
+  puts "===========OPTIONS=========="
+  print "Add/Delete:"
+  option = gets.chomp.downcase
+  if option == "add"
+    add_teacher
+  elsif option == "delete"
+    delete_teacher
+  else
+    puts "invalid option"
+    teacher_management
+  end
+end
 
 while true
   puts "\n✦---------------------------✦"
-  puts "\n===========OPTIONS==========\n"
+  puts "===========OPTIONS=========="
   puts '1. Student management'
   puts '2. Course management'
-  puts '3. Exit'
-  puts "\n✦---------------------------✦\n"
+  puts '3. Subject management'
+  puts '4. Teacher management'
+  puts '5. Exit'
+  puts "✦---------------------------✦"
 
   print 'Pick option: '
   option = gets.to_i
@@ -112,7 +207,11 @@ while true
   when 2
     course_management
   when 3
-    puts "Exiting the program"
+    subject_management
+  when 4
+    teacher_management
+  when 5
+    puts "Exiting program..."
     break
   else
     puts "invalid option. Please try again."

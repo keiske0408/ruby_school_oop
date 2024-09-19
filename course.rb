@@ -11,15 +11,15 @@ class Course
   end
 
   def display
-    "\nCourse ID: #{id},Course Name: #{name} \n"
+    "Course_ID:#{id} Course_Name:#{name}"
   end
 
   def self.all
     return @@records
   end
 
-  def self.find_id(id)
-    @@records.find { |course_id| course_id == id }
+  def self.find_course_id(id)
+    @@records.find { |course| course.id == id }
   end
 
 end
