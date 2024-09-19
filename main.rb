@@ -1,3 +1,4 @@
+require './course.rb'
 require './student.rb'
 
 def add_student
