@@ -11,7 +11,7 @@ class Student
   end
 
   def display
-    "ID: #{id}, NAME: #{name}, BIRTH_DATE: #{birth_date}, EMAIL: #{email}, PHONE_NUMBER: #{phone_number},"
+      "ID: #{id}, NAME: #{name}, BIRTH_DATE: #{birth_date}, EMAIL: #{email}, PHONE_NUMBER: #{phone_number},"
   end
 
   def self.all
@@ -26,4 +26,5 @@ class Student
     @@records.find{ |student|student.email == email }
   end
 
-  end
+end
+

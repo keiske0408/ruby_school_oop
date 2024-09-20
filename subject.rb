@@ -11,7 +11,7 @@ class Subject
   end
 
   def display
-    "\nSubject_ID:#{id} Subject_Name:#{name} \n"
+    "Subject_ID:#{id} Subject_Name:#{name}"
   end
 
   def self.all
