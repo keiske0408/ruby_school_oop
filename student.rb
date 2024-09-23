@@ -1,5 +1,5 @@
 class Student
-  attr_accessor :id, :name, :birth_date, :email, :phone_number
+  attr_accessor :id, :name, :birth_date, :email, :phone_number, :deleted_at
   @@records = []
 
   def save
@@ -7,15 +7,16 @@ class Student
   end
 
   def destroy
-    @@records.delete(self)
+    self.deleted_at = Time.now
   end
 
   def display
-      "ID: #{id}, NAME: #{name}, BIRTH_DATE: #{birth_date}, EMAIL: #{email}, PHONE_NUMBER: #{phone_number},"
+    return if deleted_at
+    "ID: #{id}, NAME: #{name}, BIRTH_DATE: #{birth_date}, EMAIL: #{email}, PHONE_NUMBER: #{phone_number},"
   end
 
   def self.all
-    return @@records
+    @@records.reject { |student| student.deleted_at }
   end
 
   def self.find_id(id)

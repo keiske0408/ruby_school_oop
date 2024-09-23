@@ -1,5 +1,5 @@
 class Course
-  attr_accessor :id, :name
+  attr_accessor :id, :name , :deleted_at
   @@records = []
 
   def save
@@ -7,15 +7,16 @@ class Course
   end
 
   def destroy
-    @@records.delete(self)
+    self.deleted_at = Time.now
   end
 
   def display
+    return if deleted_at
     "Course_ID:#{id} Course_Name:#{name}"
   end
 
   def self.all
-    return @@records
+    @@records.reject { |course| course.deleted_at }
   end
 
   def self.find_course_id(id)

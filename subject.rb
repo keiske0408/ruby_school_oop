@@ -1,5 +1,5 @@
 class Subject
-  attr_accessor :id, :name
+  attr_accessor :id, :name, :deleted_at
   @@records = []
 
   def save
@@ -7,15 +7,16 @@ class Subject
   end
 
   def destroy
-    @@records.delete(self)
+    self.deleted_at = Time.now
   end
 
   def display
+    return if deleted_at
     "Subject_ID:#{id} Subject_Name:#{name}"
   end
 
   def self.all
-    return @@records
+    @@records.reject { |subject| subject.deleted_at }
   end
 
   def self.find_id(id)

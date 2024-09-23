@@ -47,9 +47,31 @@ def display_student
   end
 end
 
+def update_student
+  print "Input ID:"
+  student_id = gets.chomp.to_i
+  id_found = Student.find_id(student_id)
+
+  if id_found
+    puts "•      Edit Student      •"
+    print "name: "
+    id_found.name = gets.chomp
+    print "birth_date: "
+    id_found.birth_date = gets.chomp
+    print "email: "
+    id_found.email = gets.chomp
+    print "phone_number: "
+    id_found.phone_number = gets.chomp
+
+    puts "Student updated successfully"
+  else
+    puts "ID not found"
+
+  end
+end
 def student_management
   puts "===========OPTIONS=========="
-  print "Add/Delete/Display: "
+  print "Add/Delete/Display/Update: "
   option = gets.chomp.downcase
 
   if option == "add"
@@ -58,6 +80,8 @@ def student_management
     delete_student
   elsif option == "display"
     display_student
+  elsif option == "update"
+    update_student
   else
     puts "Invalid option"
   end
