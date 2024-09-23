@@ -15,12 +15,24 @@ def add_student
   print "phone_number: "
   new_student.phone_number = gets.chomp
 
+  puts "Available Courses:"
+  # Course.all.each { |course| puts "ID: #{course.id}, Name: #{course.name}" }
+   Course.all.each do |course|
+      course.display
+    end
+
+  print "Select Course ID: "
+  new_student.course_id = gets.chomp.to_i
+
   id = Student.all.size + 1
   new_student.id = id
 
   new_student.save
   puts "Student added successfully!"
   puts new_student.display
+
+  puts Course.find_course_id(new_student.course_id).name
+
 end
 
 def delete_student
@@ -125,9 +137,25 @@ def display_course
   end
 end
 
+def update_course
+  print "Input ID:"
+  course_id = gets.chomp.to_i
+  id_found = Course.find_course_id(course_id)
+
+  if id_found
+    puts "•      Edit Course      •"
+    print "Course name: "
+    id_found.name = gets.chomp
+
+    puts "Course updated successfully"
+  else
+    puts "ID not found"
+  end
+end
+
 def course_management
   puts "===========OPTIONS=========="
-  print "Add/Delete/Display: "
+  print "Add/Delete/Display/Update: "
   option = gets.chomp.downcase
   if option == "add"
     add_course
@@ -135,6 +163,8 @@ def course_management
     delete_course
   elsif option == "display"
     display_course
+  elsif option == "update"
+    update_course
   else
     puts "Invalid option"
   end
@@ -178,9 +208,25 @@ def display_subject
   end
 end
 
+def update_subject
+  print "Input ID:"
+  subject_id = gets.chomp.to_i
+  id_found = Subject.find_id(subject_id)
+
+  if id_found
+    puts "•      Edit Subject      •"
+    print "Subject name: "
+    id_found.name = gets.chomp
+
+    puts "Subject updated successfully"
+  else
+    puts "ID not found"
+  end
+end
+
 def subject_management
   puts "===========OPTIONS=========="
-  print "Add/Delete/Display: "
+  print "Add/Delete/Display/Update: "
   option = gets.chomp.downcase
   if option == "add"
     add_subject
@@ -188,6 +234,8 @@ def subject_management
     delete_subject
   elsif option == "display"
     display_subject
+  elsif option == "update"
+    update_subject
   else
     puts "Invalid option"
   end
@@ -239,9 +287,33 @@ def display_teacher
   end
 end
 
+def update_teacher
+  print "Input ID:"
+  teacher_id = gets.chomp.to_i
+  id_found = Teacher.find_id(teacher_id)
+
+  if id_found
+    puts "•      Edit Teacher      •"
+    print "name: "
+    id_found.name = gets.chomp
+    print "birth_date: "
+    id_found.birth_date = gets.chomp
+    print "email: "
+    id_found.email = gets.chomp
+    print "phone_number: "
+    id_found.phone_number = gets.chomp
+    print "department: "
+    id_found.department = gets.chomp
+
+    puts "Teacher updated successfully"
+  else
+    puts "ID not found"
+  end
+end
+
 def teacher_management
   puts "===========OPTIONS=========="
-  print "Add/Delete/Display: "
+  print "Add/Delete/Display/Update: "
   option = gets.chomp.downcase
   if option == "add"
     add_teacher
@@ -249,6 +321,8 @@ def teacher_management
     delete_teacher
   elsif option == "display"
     display_teacher
+  elsif option == "update"
+    update_teacher
   else
     puts "Invalid option"
   end

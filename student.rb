@@ -1,5 +1,5 @@
 class Student
-  attr_accessor :id, :name, :birth_date, :email, :phone_number, :deleted_at
+  attr_accessor :id, :name, :birth_date, :email, :phone_number, :deleted_at, :course_id
   @@records = []
 
   def save
@@ -12,6 +12,7 @@ class Student
 
   def display
     return if deleted_at
+    course_name = Course.find_course_id(course_id)&.name || "N/A"
     "ID: #{id}, NAME: #{name}, BIRTH_DATE: #{birth_date}, EMAIL: #{email}, PHONE_NUMBER: #{phone_number},"
   end
 

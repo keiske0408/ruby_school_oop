@@ -1,9 +1,19 @@
 class Course
   attr_accessor :id, :name , :deleted_at
-  @@records = []
+
+  def initialize(id=nil,name=nil)
+    @id = id
+    @name = name
+  end
+
+  @@records = [Course.new(1,"BSBA"),
+               Course.new(2,"BSA")]
 
   def save
+    if id.nil? || id > @@records.size
+      id ||= @@records.size + 1
     @@records << self
+  end
   end
 
   def destroy
@@ -12,7 +22,7 @@ class Course
 
   def display
     return if deleted_at
-    "Course_ID:#{id} Course_Name:#{name}"
+    puts "Course_ID:#{id} Course_Name:#{name}"
   end
 
   def self.all
