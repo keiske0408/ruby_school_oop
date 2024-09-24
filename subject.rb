@@ -24,7 +24,7 @@ class Subject
 
   def self.all
     @@records.reject { |subject| subject.deleted_at }
-  end``
+  end
 
   def self.find_id(id)
     @@records.find{ |subject| subject.id == id }
