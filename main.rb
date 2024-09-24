@@ -2,6 +2,7 @@ require './course.rb'
 require './student.rb'
 require './subject.rb'
 require './teacher.rb'
+require './course_subject.rb'
 
 def add_student
   puts "•      Add new Student      •"
