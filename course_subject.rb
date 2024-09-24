@@ -20,7 +20,7 @@ class Course_subject
     end
 
     def self.find_id(id)
-      @@records.find{ |subject| subject.id == id }
+      @@records.find{ |course_sub| course_sub.id == id }
     end
 
   end

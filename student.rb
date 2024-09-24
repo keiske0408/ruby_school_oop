@@ -28,5 +28,10 @@ class Student
     @@records.find{ |student|student.email == email }
   end
 
+  def enrolled_subjects
+    StudentSubject.find_by_student_id(id).map { |ss| Subject.find_id(ss.subject_id) }
+  end
 end
+
+
 

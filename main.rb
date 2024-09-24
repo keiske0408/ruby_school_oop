@@ -3,6 +3,7 @@ require './student.rb'
 require './subject.rb'
 require './teacher.rb'
 require './course_subject.rb'
+require './student_subject.rb'
 
 def add_student
   puts "•      Add new Student      •"
@@ -18,9 +19,7 @@ def add_student
 
   puts "Available Courses:"
   # Course.all.each { |course| puts "ID: #{course.id}, Name: #{course.name}" }
-   Course.all.each do |course|
-      course.display
-    end
+   Course.all.each do |course| course.display end
 
   print "Select Course ID: "
   new_student.course_id = gets.chomp.to_i
@@ -32,8 +31,17 @@ def add_student
   puts "Student added successfully!"
   puts new_student.display
 
-  puts Course.find_course_id(new_student.course_id).name
+  # Enroll student in subjects associated with the course
+  course_subjects = Course_subject.all.select { |cs| cs.course_id == new_student.course_id }
 
+  course_subjects.each do |cs|
+    student_subject = Student_subject.new
+    student_subject.student_id = new_student.id
+    student_subject.subject_id = cs.subject_id
+    student_subject.save
+  end
+
+  puts "Student enrolled in subjects successfully!"
 end
 
 def delete_student
