@@ -83,7 +83,7 @@ def update_student
 end
 def student_management
   puts "===========OPTIONS=========="
-  print "Add/Delete/Display/Update: "
+  print "Add/Delete/Display/Update/(Back)School Management:"
   option = gets.chomp.downcase
 
   if option == "add"
@@ -94,6 +94,8 @@ def student_management
     display_student
   elsif option == "update"
     update_student
+  elsif option == "back"
+    school_management
   else
     puts "Invalid option"
   end
@@ -155,7 +157,7 @@ end
 
 def course_management
   puts "===========OPTIONS=========="
-  print "Add/Delete/Display/Update: "
+  print "Add/Delete/Display/Update/(Back)School Management: "
   option = gets.chomp.downcase
   if option == "add"
     add_course
@@ -165,6 +167,8 @@ def course_management
     display_course
   elsif option == "update"
     update_course
+  elsif option == "back"
+    school_management
   else
     puts "Invalid option"
   end
@@ -226,7 +230,7 @@ end
 
 def subject_management
   puts "===========OPTIONS=========="
-  print "Add/Delete/Display/Update: "
+  print "Add/Delete/Display/Update/(Back)School Management:"
   option = gets.chomp.downcase
   if option == "add"
     add_subject
@@ -236,6 +240,8 @@ def subject_management
     display_subject
   elsif option == "update"
     update_subject
+  elsif option == "back"
+    school_management
   else
     puts "Invalid option"
   end
@@ -313,7 +319,7 @@ end
 
 def teacher_management
   puts "===========OPTIONS=========="
-  print "Add/Delete/Display/Update: "
+  print "Add/Delete/Display/Update/(Back)School Management: "
   option = gets.chomp.downcase
   if option == "add"
     add_teacher
@@ -323,11 +329,14 @@ def teacher_management
     display_teacher
   elsif option == "update"
     update_teacher
+  elsif option == 'back'
+    school_management
   else
     puts "Invalid option"
   end
 end
 
+def school_management
 while true
   puts "\n✦---------------------------✦"
   puts "===========OPTIONS=========="
@@ -352,8 +361,13 @@ while true
     teacher_management
   when 5
     puts "Exiting program..."
-    break
+    exit
   else
     puts "Invalid option. Please try again."
   end
+end
+end
+
+while true
+  school_management
 end
