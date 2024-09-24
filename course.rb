@@ -1,4 +1,6 @@
 class Course
+  require './subject.rb'
+
   attr_accessor :id, :name , :deleted_at
 
   def initialize(id=nil,name=nil)
@@ -24,6 +26,13 @@ class Course
     puts "Course_ID:#{id} Course_Name:#{name}"
   end
 
+  def students
+    Student.all.select { |student| student.course_id == id }
+  end
+
+  def subjects
+    Course_subject.all.select { |cs| cs.course_id == id }.map { |cs| Subject.find_id(cs.subject_id) }
+  end
   def self.all
     @@records.reject { |course| course.deleted_at }
   end
@@ -32,4 +41,4 @@ class Course
     @@records.find { |course| course.id == id }
   end
 
-end
+  end

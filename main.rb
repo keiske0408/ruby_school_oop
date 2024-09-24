@@ -198,20 +198,35 @@ def display_course_with_subjects
 
     if course
       puts course.display
-      # Display subjects for the selected course
-      course_subjects = Course_subject.all.select { |cs| cs.course_id == course_id }
-      if course_subjects.empty?
-        puts "No subjects found for this course."
-      else
-        course_subjects.each do |cs|
-          subject = Subject.find_id(cs.subject_id)
-          puts subject.display if subject
+      loop do
+        puts "\nOptions: [1] View Students [2] View Subjects [3] Back"
+        option = gets.chomp.to_i
+
+        case option
+        when 1
+          students = course.students
+          if students.empty?
+            puts "No students found for this course."
+          else
+            students.each { |student| puts student.display }
+          end
+        when 2
+          subjects = course.subjects
+          if subjects.empty?
+            puts "No subjects found for this course."
+          else
+            subjects.each { |subject| puts subject.display }
+          end
+        when 3
+          break
+        else
+          puts "Invalid option."
         end
       end
     else
       puts "ID not found"
     end
-  end
+end
 
 def add_subject_to_course
     print "Input Course ID to add a subject: "
