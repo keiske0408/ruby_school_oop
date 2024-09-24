@@ -1,5 +1,5 @@
 class Course_subject
-    attr_accessor :id, :course_id, :subject_id
+    attr_accessor :id, :course_id, :subject_id , :deleted_at
     @@records = []
 
     def save

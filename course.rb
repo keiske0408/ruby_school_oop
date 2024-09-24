@@ -8,7 +8,6 @@ class Course
 
   @@records = [Course.new(1,"BSBA"),
                Course.new(2,"BSA")]
-
   def save
     if id.nil? || id > @@records.size
       id ||= @@records.size + 1

@@ -134,10 +134,22 @@ def display_course
   if courses.empty?
     puts "No courses found."
   else
+    puts " "
     courses.each do |course|
-      puts course.display
+      course.display
     end
   end
+   print "\nInput Course ID: "
+  course_id = gets.chomp.to_i
+  id_founder = Course.find_course_id(course_id)
+  if id_founder
+    puts id_founder.display
+
+  else
+    puts "ID not found"
+  end
+  
+
 end
 
 def update_course
@@ -158,22 +170,87 @@ end
 
 def course_management
   puts "===========OPTIONS=========="
-  print "Add/Delete/Display/Update/(Back)School Management: "
+  print "Add/Delete/Display/Update/Add Subject/Remove Subject/(Back)School Management: "
   option = gets.chomp.downcase
-  if option == "add"
+
+  case option
+  when "add"
     add_course
-  elsif option == "delete"
+  when "delete"
     delete_course
-  elsif option == "display"
-    display_course
-  elsif option == "update"
+  when "display"
+    display_course_with_subjects
+  when "update"
     update_course
-  elsif option == "back"
+  when "add subject"
+    add_subject_to_course
+  when "remove subject"
+    remove_subject_from_course
+  when "back"
     school_management
-  else
-    puts "Invalid option"
   end
 end
+
+def display_course_with_subjects
+    print "Input Course ID: "
+    course_id = gets.chomp.to_i
+    course = Course.find_course_id(course_id)
+
+    if course
+      puts course.display
+      # Display subjects for the selected course
+      course_subjects = Course_subject.all.select { |cs| cs.course_id == course_id }
+      if course_subjects.empty?
+        puts "No subjects found for this course."
+      else
+        course_subjects.each do |cs|
+          subject = Subject.find_id(cs.subject_id)
+          puts subject.display if subject
+        end
+      end
+    else
+      puts "ID not found"
+    end
+  end
+
+def add_subject_to_course
+    print "Input Course ID to add a subject: "
+    course_id = gets.chomp.to_i
+    course = Course.find_course_id(course_id)
+
+    if course
+      puts "Available Subjects:"
+      Subject.all.each { |subject| puts subject.display }
+      print "Select Subject ID: "
+      subject_id = gets.chomp.to_i
+      subject = Subject.find_id(subject_id)
+
+      if subject
+        cs = Course_subject.new
+        cs.course_id = course_id
+        cs.subject_id = subject_id
+        cs.save
+        puts "Subject added to course successfully!"
+      else
+        puts "Subject ID not found."
+      end
+    else
+      puts "Course ID not found."
+    end
+  end
+
+def remove_subject_from_course
+    print "Input Course Subject ID to remove: "
+    cs_id = gets.chomp.to_i
+    cs = Course_subject.find_id(cs_id)
+
+    if cs
+      cs.destroy
+      puts "Subject removed from course successfully!"
+    else
+      puts "Course Subject ID not found."
+    end
+  end
 
 def add_subject
   puts "•      Add new Subject      •"
