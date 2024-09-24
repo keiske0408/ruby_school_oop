@@ -1,6 +1,13 @@
 class Subject
   attr_accessor :id, :name, :deleted_at
   @@records = []
+  def initialize(id=nil,name=nil)
+    @id = id
+    @name = name
+  end
+
+  @@records = [Subject.new(1,"math"),
+               Subject.new(2,"science")]
 
   def save
     @@records << self
@@ -17,7 +24,7 @@ class Subject
 
   def self.all
     @@records.reject { |subject| subject.deleted_at }
-  end
+  end``
 
   def self.find_id(id)
     @@records.find{ |subject| subject.id == id }

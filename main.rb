@@ -66,7 +66,25 @@ def display_student
       puts student.display
     end
   end
+  print "Input Student ID to view details: "
+  student_id = gets.chomp.to_i
+  student = Student.find_id(student_id)
+
+  if student
+    puts student.display
+    puts "Enrolled Subjects:"
+    subjects = student.enrolled_subjects
+    if subjects.empty?
+      puts "No subjects enrolled."
+    else
+      subjects.each { |subject| puts subject.display }
+    end
+  else
+    puts "Student ID not found."
+  end
 end
+
+
 
 def update_student
   print "Input ID:"

@@ -10,6 +10,10 @@ class Student
     self.deleted_at = Time.now
   end
 
+  def subjects
+    Student.all.select { |student| student.course_id == id }
+  end
+
   def display
     return if deleted_at
     course_name = Course.find_course_id(course_id)&.name || "N/A"
@@ -29,7 +33,7 @@ class Student
   end
 
   def enrolled_subjects
-    StudentSubject.find_by_student_id(id).map { |ss| Subject.find_id(ss.subject_id) }
+    Student_subject.all.select { |ss| ss.student_id == id }.map { |ss| Subject.find_id(ss.subject_id) }
   end
 end
 
