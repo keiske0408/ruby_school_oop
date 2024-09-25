@@ -4,44 +4,32 @@ require './subject.rb'
 require './teacher.rb'
 require './course_subject.rb'
 require './student_subject.rb'
+require './person.rb'
 
 def add_student
   puts "•      Add new Student      •"
   new_student = Student.new
-  print "name: "
+  print "Name: "
   new_student.name = gets.chomp
-  print "birth_date: "
+  print "Birth date: "
   new_student.birth_date = gets.chomp
-  print "email: "
+  print "Email: "
   new_student.email = gets.chomp
-  print "phone_number: "
+  print "Phone number: "
   new_student.phone_number = gets.chomp
 
   puts "Available Courses:"
-  # Course.all.each { |course| puts "ID: #{course.id}, Name: #{course.name}" }
-   Course.all.each do |course| course.display end
+  Course.all.each(&:display)
 
   print "Select Course ID: "
   new_student.course_id = gets.chomp.to_i
 
-  id = Student.all.size + 1
-  new_student.id = id
-
+  new_student.id = Student.all.size + 1
   new_student.save
   puts "Student added successfully!"
   puts new_student.display
 
-  # Enroll student in subjects associated with the course
-  course_subjects = Course_subject.all.select { |cs| cs.course_id == new_student.course_id }
-
-  course_subjects.each do |cs|
-    student_subject = Student_subject.new
-    student_subject.student_id = new_student.id
-    student_subject.subject_id = cs.subject_id
-    student_subject.save
-  end
-
-  puts "Student enrolled in subjects successfully!"
+  # Enrollment logic...
 end
 
 def delete_student
@@ -84,8 +72,6 @@ def display_student
   end
 end
 
-
-
 def update_student
   print "Input ID:"
   student_id = gets.chomp.to_i
@@ -108,6 +94,7 @@ def update_student
 
   end
 end
+
 def student_management
   puts "===========OPTIONS=========="
   print "Add/Delete/Display/Update/(Back)School Management:"
@@ -165,7 +152,7 @@ def display_course
       course.display
     end
   end
-   print "\nInput Course ID: "
+  print "\nInput Course ID: "
   course_id = gets.chomp.to_i
   id_founder = Course.find_course_id(course_id)
   if id_founder
@@ -174,7 +161,6 @@ def display_course
   else
     puts "ID not found"
   end
-  
 
 end
 
@@ -218,80 +204,80 @@ def course_management
 end
 
 def display_course_with_subjects
-    print "Input Course ID: "
-    course_id = gets.chomp.to_i
-    course = Course.find_course_id(course_id)
+  print "Input Course ID: "
+  course_id = gets.chomp.to_i
+  course = Course.find_course_id(course_id)
 
-    if course
-      puts course.display
-      loop do
-        puts "\nOptions: [1] View Students [2] View Subjects [3] Back"
-        option = gets.chomp.to_i
+  if course
+    puts course.display
+    loop do
+      puts "\nOptions: [1] View Students [2] View Subjects [3] Back"
+      option = gets.chomp.to_i
 
-        case option
-        when 1
-          students = course.students
-          if students.empty?
-            puts "No students found for this course."
-          else
-            students.each { |student| puts student.display }
-          end
-        when 2
-          subjects = course.subjects
-          if subjects.empty?
-            puts "No subjects found for this course."
-          else
-            subjects.each { |subject| puts subject.display }
-          end
-        when 3
-          break
+      case option
+      when 1
+        students = course.students
+        if students.empty?
+          puts "No students found for this course."
         else
-          puts "Invalid option."
+          students.each { |student| puts student.display }
         end
+      when 2
+        subjects = course.subjects
+        if subjects.empty?
+          puts "No subjects found for this course."
+        else
+          subjects.each { |subject| puts subject.display }
+        end
+      when 3
+        break
+      else
+        puts "Invalid option."
       end
-    else
-      puts "ID not found"
     end
+  else
+    puts "ID not found"
+  end
 end
 
 def add_subject_to_course
-    print "Input Course ID to add a subject: "
-    course_id = gets.chomp.to_i
-    course = Course.find_course_id(course_id)
+  print "Input Course ID to add a subject: "
+  course_id = gets.chomp.to_i
+  course = Course.find_course_id(course_id)
 
-    if course
-      puts "Available Subjects:"
-      Subject.all.each { |subject| puts subject.display }
-      print "Select Subject ID: "
-      subject_id = gets.chomp.to_i
-      subject = Subject.find_id(subject_id)
+  if course
+    puts "Available Subjects:"
+    Subject.all.each { |subject| puts subject.display }
+    print "Select Subject ID: "
+    subject_id = gets.chomp.to_i
+    subject = Subject.find_id(subject_id)
 
-      if subject
-        cs = Course_subject.new
-        cs.course_id = course_id
-        cs.subject_id = subject_id
-        cs.save
-        puts "Subject added to course successfully!"
-      else
-        puts "Subject ID not found."
-      end
+    if subject
+      cs = Course_subject.new
+      cs.course_id = course_id
+      cs.subject_id = subject_id
+      cs.save
+      puts "Subject added to course successfully!"
     else
-      puts "Course ID not found."
+      puts "Subject ID not found."
     end
+  else
+    puts "Course ID not found."
   end
+end
 
 def remove_subject_from_course
-    print "Input Course Subject ID to remove: "
-    cs_id = gets.chomp.to_i
-    cs = Course_subject.find_id(cs_id)
+  print "Input Course Subject ID to remove: "
+  cs_id = gets.chomp.to_i
+  cs = Course_subject.find_id(cs_id)
 
-    if cs
-      cs.destroy
-      puts "Subject removed from course successfully!"
-    else
-      puts "Course Subject ID not found."
-    end
+  if cs
+    cs.destroy
+    puts "Subject removed from course successfully!"
+  else
+    puts "Course Subject ID not found."
   end
+end
 
 def add_subject
   puts "•      Add new Subject      •"
@@ -369,20 +355,18 @@ end
 def add_teacher
   puts "•      Add new Teacher      •"
   new_teacher = Teacher.new
-  print "name: "
+  print "Name: "
   new_teacher.name = gets.chomp
-  print "birth_date: "
+  print "Birth date: "
   new_teacher.birth_date = gets.chomp
-  print "email: "
+  print "Email: "
   new_teacher.email = gets.chomp
-  print "phone_number: "
+  print "Phone number: "
   new_teacher.phone_number = gets.chomp
-  print "department: "
+  print "Department: "
   new_teacher.department = gets.chomp
 
-  id = Teacher.all.size + 1
-  new_teacher.id = id
-
+  new_teacher.id = Teacher.all.size + 1
   new_teacher.save
   puts "Teacher added successfully!"
   puts new_teacher.display
@@ -456,35 +440,35 @@ def teacher_management
 end
 
 def school_management
-while true
-  puts "\n✦---------------------------✦"
-  puts "===========OPTIONS=========="
-  puts '1. Student management'
-  puts '2. Course management'
-  puts '3. Subject management'
-  puts '4. Teacher management'
-  puts '5. Exit'
-  puts "✦---------------------------✦"
+  while true
+    puts "\n✦---------------------------✦"
+    puts "===========OPTIONS=========="
+    puts '1. Student management'
+    puts '2. Course management'
+    puts '3. Subject management'
+    puts '4. Teacher management'
+    puts '5. Exit'
+    puts "✦---------------------------✦"
 
-  print 'Pick option: '
-  option = gets.to_i
+    print 'Pick option: '
+    option = gets.to_i
 
-  case option
-  when 1
-    student_management
-  when 2
-    course_management
-  when 3
-    subject_management
-  when 4
-    teacher_management
-  when 5
-    puts "Exiting program..."
-    exit
-  else
-    puts "Invalid option. Please try again."
+    case option
+    when 1
+      student_management
+    when 2
+      course_management
+    when 3
+      subject_management
+    when 4
+      teacher_management
+    when 5
+      puts "Exiting program..."
+      exit
+    else
+      puts "Invalid option. Please try again."
+    end
   end
-end
 end
 
 while true
